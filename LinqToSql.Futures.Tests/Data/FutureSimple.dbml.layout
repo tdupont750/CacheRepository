@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="FutureSimple">
+  <DataContextMoniker Name="/FutureSimpleDataContext" />
+  <nestedChildShapes>
+    <classShape Id="bae54aee-7a8f-4e3f-9b7b-9fa9294e5f5e" absoluteBounds="0.75, 4, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/FutureSimpleDataContext/FuturePerson" />
+      <nestedChildShapes>
+        <elementListCompartment Id="52624043-0b15-44f8-a7fa-1750d3f5a9c8" absoluteBounds="0.765, 4.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f2d31b31-2204-4372-beb4-ed918aa9a989" absoluteBounds="0.75, 1.125, 2, 1.3862939453125">
+      <DataClassMoniker Name="/FutureSimpleDataContext/FutureSpecy" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b090c434-b928-4f2f-8f5e-8a97d3c2ff2c" absoluteBounds="0.765, 1.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7d2a1999-b3e5-4f18-aed6-b62068cf2db4" absoluteBounds="3.5, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/FutureSimpleDataContext/FuturePet" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7064fd54-112d-44e8-a177-46c7c0393d53" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
