@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Unity.Mvc3</id>
+    <version>1.2</version>
+    <authors>Paul Hiles</authors>
+    <owners>Paul Hiles</owners>
+    <licenseUrl>http://unitymvc3.codeplex.com/license</licenseUrl>
+    <projectUrl>http://unitymvc3.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Unity.Mvc3 is a library that allows simple Integration of Microsoft's Unity IoC container with ASP.NET MVC 3. This project includes a bespoke DependencyResolver that creates a child container per HTTP request and disposes of container resolved IDisposable instances at the end of the request.</description>
+    <tags>unity asp.net mvc mvc3</tags>
+    <dependencies>
+      <dependency id="Unity" version="2.1.505.0" />
+    </dependencies>
+    <references>
+      <reference file="Unity.Mvc3.dll" />
+    </references>
+  </metadata>
+</package>

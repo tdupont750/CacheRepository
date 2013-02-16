@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheRepository", "CacheRepository\CacheRepository.csproj", "{3B31542F-E359-40B1-ADF6-C64D87C8B06D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheRepository.Web", "CacheRepository.Web\CacheRepository.Web.csproj", "{1AE05589-46DE-4286-A840-919A73D36C2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheRepository.Tests", "CacheRepository.Tests\CacheRepository.Tests.csproj", "{A65A5E18-48A6-4155-BEF2-E5E18CE590E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B31542F-E359-40B1-ADF6-C64D87C8B06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B31542F-E359-40B1-ADF6-C64D87C8B06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B31542F-E359-40B1-ADF6-C64D87C8B06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B31542F-E359-40B1-ADF6-C64D87C8B06D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AE05589-46DE-4286-A840-919A73D36C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE05589-46DE-4286-A840-919A73D36C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE05589-46DE-4286-A840-919A73D36C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE05589-46DE-4286-A840-919A73D36C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A65A5E18-48A6-4155-BEF2-E5E18CE590E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65A5E18-48A6-4155-BEF2-E5E18CE590E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65A5E18-48A6-4155-BEF2-E5E18CE590E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65A5E18-48A6-4155-BEF2-E5E18CE590E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
+EndGlobal
