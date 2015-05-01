@@ -1,0 +1,16 @@
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.execution.desktop.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\CacheRepository.Tests.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\CacheRepository.Tests.pdb
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\CacheRepository.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.abstractions.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.assert.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.core.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\CacheRepository.pdb
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.abstractions.xml
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.assert.pdb
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.assert.xml
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.core.pdb
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\bin\Debug\xunit.core.xml
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\obj\Debug\CacheRepository.Tests.csprojResolveAssemblyReference.cache
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\obj\Debug\CacheRepository.Tests.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository.Tests\obj\Debug\CacheRepository.Tests.pdb

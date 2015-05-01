@@ -1,0 +1,4 @@
+C:\Code\TDupont750\CacheRepository\CacheRepository\bin\Debug\CacheRepository.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository\bin\Debug\CacheRepository.pdb
+C:\Code\TDupont750\CacheRepository\CacheRepository\obj\Debug\CacheRepository.dll
+C:\Code\TDupont750\CacheRepository\CacheRepository\obj\Debug\CacheRepository.pdb
