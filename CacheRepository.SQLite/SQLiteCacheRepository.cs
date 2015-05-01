@@ -11,23 +11,23 @@ namespace CacheRepository.SQLite
     // ReSharper disable once InconsistentNaming
     public class SQLiteCacheRepository : CacheRepositoryBase
     {
-        private readonly Func<CacheContext> _repositoryFactory;
+        private readonly Func<CacheContext> _contextFactory;
 
         public SQLiteCacheRepository()
             : this (() => new CacheContext())
         {
         }
 
-        public SQLiteCacheRepository(Func<CacheContext> repositoryFactory)
+        public SQLiteCacheRepository(Func<CacheContext> contextFactory)
         {
-            _repositoryFactory = repositoryFactory;
+            _contextFactory = contextFactory;
         }
 
         public override object Get(string key)
         {
             CacheEntry entry;
 
-            using (var context = _repositoryFactory())
+            using (var context = _contextFactory())
                 entry = context.CacheEntries.FirstOrDefault(c => c.Key == key);
 
             if (entry == null)
@@ -53,7 +53,7 @@ namespace CacheRepository.SQLite
             var json = JsonConvert.SerializeObject(value);
             var type = value.GetType().AssemblyQualifiedName;
 
-            using (var context = _repositoryFactory())
+            using (var context = _contextFactory())
             {
                 context.CacheEntries.Add(new CacheEntry
                 {
@@ -70,7 +70,7 @@ namespace CacheRepository.SQLite
 
         public override void Remove(string key)
         {
-            using (var context = _repositoryFactory())
+            using (var context = _contextFactory())
             {
                 var keyParam = new SQLiteParameter("@key", key);
                 context.Database.ExecuteSqlCommand("DELETE FROM CacheEntry WHERE Key = @key", keyParam);
@@ -79,7 +79,7 @@ namespace CacheRepository.SQLite
 
         public override void ClearAll()
         {
-            using (var context = _repositoryFactory())
+            using (var context = _contextFactory())
                 context.Database.ExecuteSqlCommand("DELETE FROM CacheEntry");
         }
     }

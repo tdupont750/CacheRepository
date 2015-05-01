@@ -25,7 +25,6 @@ namespace CacheRepository.SQLite.Tests
             _cache = new SQLiteCacheRepository(_contextFactory);
 
             _cache.ClearAll();
-
         }
 
         public void Dispose()
@@ -82,11 +81,12 @@ namespace CacheRepository.SQLite.Tests
 
         private void AssertCount(int expected)
         {
+            int count;
+
             using (var context = _contextFactory())
-            {
-                var count = context.CacheEntries.Count();
-                Assert.Equal(expected, count);
-            }
+                count = context.CacheEntries.Count();
+
+            Assert.Equal(expected, count);
         }
 
         public class Sample
