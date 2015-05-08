@@ -10,7 +10,7 @@ namespace CacheRepository.SQLite.Data
 
         private DateTime _modifiedUtc;
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Key { get; set; }
 
