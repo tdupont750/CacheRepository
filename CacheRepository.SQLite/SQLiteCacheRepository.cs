@@ -11,6 +11,8 @@ namespace CacheRepository.SQLite
     // ReSharper disable once InconsistentNaming
     public class SQLiteCacheRepository : CacheRepositoryBase
     {
+        private readonly object _contextLock = new object();
+
         private readonly Func<CacheContext> _contextFactory;
 
         public SQLiteCacheRepository()
@@ -27,6 +29,7 @@ namespace CacheRepository.SQLite
         {
             CacheEntry entry;
 
+            lock(_contextLock)
             using (var context = _contextFactory())
                 entry = context.CacheEntries.FirstOrDefault(c => c.Key == key);
 
@@ -53,6 +56,7 @@ namespace CacheRepository.SQLite
             var json = JsonConvert.SerializeObject(value);
             var type = value.GetType().AssemblyQualifiedName;
 
+            lock(_contextLock)
             using (var context = _contextFactory())
             {
                 context.CacheEntries.Add(new CacheEntry
@@ -70,6 +74,7 @@ namespace CacheRepository.SQLite
 
         public override void Remove(string key)
         {
+            lock (_contextLock)
             using (var context = _contextFactory())
             {
                 var keyParam = new SQLiteParameter("@key", key);
@@ -79,6 +84,7 @@ namespace CacheRepository.SQLite
 
         public override void ClearAll()
         {
+            lock (_contextLock)
             using (var context = _contextFactory())
                 context.Database.ExecuteSqlCommand("DELETE FROM CacheEntry");
         }
