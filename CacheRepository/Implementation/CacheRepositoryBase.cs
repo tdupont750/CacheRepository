@@ -21,7 +21,7 @@ namespace CacheRepository.Implementation
         
         #region GetOrSet
 
-        private T GetOrSet<T>(string key, Func<T> loader, DateTime? expiration, TimeSpan? sliding)
+        private T GetOrSet<T>(string key, Func<T> loader, Func<T, DateTime> expirationFunc, Func<T, TimeSpan> slidingFunc)
         {
             // Get It
             T value;
@@ -43,12 +43,21 @@ namespace CacheRepository.Implementation
                     value = loader();
 
                     // Set It
-                    // ReSharper disable CompareNonConstrainedGenericWithNull
                     // This is disabled because a primitive type (int, bool, etc) will never be
                     // null, but that is okay because we want to cache those types of values.
+                    // ReSharper disable CompareNonConstrainedGenericWithNull
                     if (value != null)
-                        // ReSharper restore CompareNonConstrainedGenericWithNull
+                    {
+                        var expiration = expirationFunc == null
+                            ? (DateTime?) null
+                            : expirationFunc(value);
+
+                        var sliding = slidingFunc == null
+                            ? (TimeSpan?) null
+                            : slidingFunc(value);
+
                         Set(key, value, expiration, sliding);
+                    }
                 }
 
                 return value;
@@ -62,24 +71,42 @@ namespace CacheRepository.Implementation
 
         public T GetOrSet<T>(string key, Func<T> loader, DateTime expiration)
         {
+            return GetOrSet(key, loader, v => expiration, null);
+        }
+
+        public T GetOrSet<T>(string key, Func<T> loader, Func<T, DateTime> expiration)
+        {
             return GetOrSet(key, loader, expiration, null);
         }
 
         public T GetOrSet<T>(string key, Func<T> loader, TimeSpan sliding)
+        {
+            return GetOrSet(key, loader, null, v => sliding);
+        }
+
+        public T GetOrSet<T>(string key, Func<T> loader, Func<T, TimeSpan> sliding)
         {
             return GetOrSet(key, loader, null, sliding);
         }
 
         public T GetOrSet<T>(string key, Func<T> loader, CacheExpiration expiration)
         {
-            var dt = GetExpirationDateTime(expiration);
-            return GetOrSet(key, loader, dt);
+            return GetOrSet(key, loader, v => GetExpirationDateTime(expiration));
+        }
+
+        public T GetOrSet<T>(string key, Func<T> loader, Func<T, CacheExpiration> expiration)
+        {
+            return GetOrSet(key, loader, v => GetExpirationDateTime(expiration(v)));
         }
 
         public T GetOrSet<T>(string key, Func<T> loader, CacheSliding sliding)
         {
-            var ts = GetSlidingTimeSpan(sliding);
-            return GetOrSet(key, loader, ts);
+            return GetOrSet(key, loader, v => GetSlidingTimeSpan(sliding));
+        }
+
+        public T GetOrSet<T>(string key, Func<T> loader, Func<T, CacheSliding> sliding)
+        {
+            return GetOrSet(key, loader, v => GetSlidingTimeSpan(sliding(v)));
         }
 
         #endregion

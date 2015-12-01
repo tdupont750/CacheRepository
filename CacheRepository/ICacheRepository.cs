@@ -56,9 +56,31 @@ namespace CacheRepository
         /// <typeparam name="T">Type of the cached object</typeparam>
         /// <param name="key">Cache key</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        T GetOrSet<T>(string key, Func<T> loader, Func<T, DateTime> expiration);
+
+        /// <summary>
+        /// Get or set by key.
+        /// If key is not found, loader is invoked and the result is cached under the specified key.
+        /// </summary>
+        /// <typeparam name="T">Type of the cached object</typeparam>
+        /// <param name="key">Cache key</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
         /// <returns>Cached object or result of loader</returns>
         T GetOrSet<T>(string key, Func<T> loader, TimeSpan sliding);
+
+        /// <summary>
+        /// Get or set by key.
+        /// If key is not found, loader is invoked and the result is cached under the specified key.
+        /// </summary>
+        /// <typeparam name="T">Type of the cached object</typeparam>
+        /// <param name="key">Cache key</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        T GetOrSet<T>(string key, Func<T> loader, Func<T, TimeSpan> sliding);
 
         /// <summary>
         /// Get or set by key.
@@ -75,6 +97,18 @@ namespace CacheRepository
         /// <summary>
         /// Get or set by key.
         /// If key is not found, loader is invoked and the result is cached under the specified key.
+        /// Cache absolute expiration is taken from the enum value or override by application configuration. 
+        /// </summary>
+        /// <typeparam name="T">Type of the cached object</typeparam>
+        /// <param name="key">Cache key</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        T GetOrSet<T>(string key, Func<T> loader, Func<T, CacheExpiration> expiration);
+
+        /// <summary>
+        /// Get or set by key.
+        /// If key is not found, loader is invoked and the result is cached under the specified key.
         /// Cache sliding expiration is taken from the enum value or override by application configuration. 
         /// </summary>
         /// <typeparam name="T">Type of the cached object</typeparam>
@@ -83,6 +117,18 @@ namespace CacheRepository
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
         /// <returns>Cached object or result of loader</returns>
         T GetOrSet<T>(string key, Func<T> loader, CacheSliding sliding);
+
+        /// <summary>
+        /// Get or set by key.
+        /// If key is not found, loader is invoked and the result is cached under the specified key.
+        /// Cache sliding expiration is taken from the enum value or override by application configuration. 
+        /// </summary>
+        /// <typeparam name="T">Type of the cached object</typeparam>
+        /// <param name="key">Cache key</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        T GetOrSet<T>(string key, Func<T> loader, Func<T, CacheSliding> sliding);
 
         #endregion
 
