@@ -51,9 +51,43 @@ namespace CacheRepository
         /// <param name="repo">ICacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, DateTime> expiration)
+        {
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSet(key, loader, expiration);
+        }
+
+        /// <summary>
+        /// Get or set by type.
+        /// Cache key is automagically created from object type and identify.
+        /// Example: repo.GetOrSetByType<User>(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
+        /// </summary>
+        /// <typeparam name="T">Type of cached object</typeparam>
+        /// <param name="repo">ICacheRepository</param>
+        /// <param name="identifier">Type specific unique identify for object</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
         /// <returns>Cached object or result of loader</returns>
         public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, TimeSpan sliding)
+        {
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSet(key, loader, sliding);
+        }
+
+        /// <summary>
+        /// Get or set by type.
+        /// Cache key is automagically created from object type and identify.
+        /// Example: repo.GetOrSetByType<User>(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
+        /// </summary>
+        /// <typeparam name="T">Type of cached object</typeparam>
+        /// <param name="repo">ICacheRepository</param>
+        /// <param name="identifier">Type specific unique identify for object</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, TimeSpan> sliding)
         {
             var key = CreateKey<T>(identifier);
             return repo.GetOrSet(key, loader, sliding);
@@ -80,6 +114,24 @@ namespace CacheRepository
         /// <summary>
         /// Get or set by type.
         /// Cache key is automagically created from object type and identify.
+        /// Cache absolute expiration is taken from the enum value or override by application configuration. 
+        /// Example: repo.GetOrSetByType<User>(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
+        /// </summary>
+        /// <typeparam name="T">Type of cached object</typeparam>
+        /// <param name="repo">ICacheRepository</param>
+        /// <param name="identifier">Type specific unique identify for object</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, CacheExpiration> expiration)
+        {
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSet(key, loader, expiration);
+        }
+
+        /// <summary>
+        /// Get or set by type.
+        /// Cache key is automagically created from object type and identify.
         /// Cache sliding expiration is taken from the enum value or override by application configuration. 
         /// Example: repo.GetOrSetByType<User>(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
@@ -90,6 +142,24 @@ namespace CacheRepository
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
         /// <returns>Cached object or result of loader</returns>
         public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, CacheSliding sliding)
+        {
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSet(key, loader, sliding);
+        }
+
+        /// <summary>
+        /// Get or set by type.
+        /// Cache key is automagically created from object type and identify.
+        /// Cache sliding expiration is taken from the enum value or override by application configuration. 
+        /// Example: repo.GetOrSetByType<User>(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
+        /// </summary>
+        /// <typeparam name="T">Type of cached object</typeparam>
+        /// <param name="repo">ICacheRepository</param>
+        /// <param name="identifier">Type specific unique identify for object</param>
+        /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <returns>Cached object or result of loader</returns>
+        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, CacheSliding> sliding)
         {
             var key = CreateKey<T>(identifier);
             return repo.GetOrSet(key, loader, sliding);
@@ -129,7 +199,7 @@ namespace CacheRepository
             var key = CreateKey<T>(identifier);
             repo.Set(key, value, expiration);
         }
-
+        
         /// <summary>
         /// Set by type.
         /// Cache key is automagically created from object type and identify.
