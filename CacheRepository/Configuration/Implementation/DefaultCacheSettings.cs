@@ -3,11 +3,7 @@ namespace CacheRepository.Configuration.Implementation
     public class DefaultCacheSettings : ICacheSettings
     {
         public static readonly DefaultCacheSettings Instance = new DefaultCacheSettings();
-
-        private DefaultCacheSettings()
-        {
-        }
-
+        
         public int GetMinutes(CacheExpiration expiration)
         {
             return (int)expiration;

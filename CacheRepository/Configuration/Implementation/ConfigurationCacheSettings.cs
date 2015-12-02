@@ -8,11 +8,7 @@ namespace CacheRepository.Configuration.Implementation
     public class ConfigurationCacheSettings : ICacheSettings
     {
         public static readonly ConfigurationCacheSettings Instance = new ConfigurationCacheSettings();
-
-        private ConfigurationCacheSettings()
-        {
-        }
-
+        
         private readonly ConcurrentDictionary<CacheExpiration, int> _expirationMap = new ConcurrentDictionary<CacheExpiration, int>();
 
         private readonly ConcurrentDictionary<CacheSliding, int> _slidingMap = new ConcurrentDictionary<CacheSliding, int>();

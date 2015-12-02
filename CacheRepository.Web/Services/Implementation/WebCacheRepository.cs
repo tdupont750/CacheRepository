@@ -44,8 +44,11 @@ namespace CacheRepository.Web.Services.Implementation
 
         protected override Task<Tuple<bool, T>> TryGetAsync<T>(string key, CancellationToken cancelToken)
         {
-            var value = _cache.Get(key);
-            var result = Tuple.Create(value == null, (T)value);
+            var getValue = _cache.Get(key);
+            var notNull = getValue != null;
+            var value = notNull ? (T) getValue : default(T);
+
+            var result = Tuple.Create(notNull, value);
             return Task.FromResult(result);
         }
 
