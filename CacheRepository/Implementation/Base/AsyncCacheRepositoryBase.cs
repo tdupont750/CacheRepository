@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using CacheRepository.Configuration;
+using CacheRepository.Threading;
 
 namespace CacheRepository.Implementation.Base
 {
@@ -10,7 +10,7 @@ namespace CacheRepository.Implementation.Base
     public abstract class AsyncCacheRepositoryBase : IAsyncCacheRepository, ICacheRepository
 #pragma warning restore 612
     {
-        private readonly ConcurrentDictionary<int, SemaphoreSlim> _semaphoreMap = new ConcurrentDictionary<int, SemaphoreSlim>();
+        private readonly KeyedSemaphoreSlim _keyedSemaphoreSlim = new KeyedSemaphoreSlim();
 
         private readonly ICacheSettings _cacheSettings;
 
@@ -122,7 +122,7 @@ namespace CacheRepository.Implementation.Base
         public abstract Task ClearAllAsync(CancellationToken cancelToken);
 
         protected abstract Task SetAsync<T>(string key, T value, DateTime? expiration, TimeSpan? sliding, CancellationToken cancelToken);
-        
+
         protected abstract Task<Tuple<bool, T>> TryGetAsync<T>(string key, CancellationToken cancelToken);
 
         private async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> loader, Func<T, DateTime> expirationFunc, Func<T, TimeSpan> slidingFunc, CancellationToken cancelToken)
@@ -134,21 +134,13 @@ namespace CacheRepository.Implementation.Base
             if (result.Item1 || loader == null)
                 return result.Item2;
 
-            // We do not want to create an infinite number of SemaphoreSlim objects, so instead
-            // we has the key and take a mod to limit the max number of semaphores. This will 
-            // obviously result in key colision, however it is extremely unlikely that will
-            // happen during simultaneous get calls for multiple distinct keys.
-            var keyHashMod = key.GetHashCode()%100;
-
-            var semaphore = _semaphoreMap.GetOrAdd(keyHashMod, k => new SemaphoreSlim(1, 1));
-
-            try
+            // Lock the Key
+            using (await _keyedSemaphoreSlim.WaitAsync(key, cancelToken).ConfigureAwait(false))
             {
-                await semaphore.WaitAsync(cancelToken).ConfigureAwait(false);
-
                 // Get It (Again)
                 result = await TryGetAsync<T>(key, cancelToken).ConfigureAwait(false);
 
+                // Already Loaded, Return
                 if (result.Item1)
                     return result.Item2;
 
@@ -173,10 +165,6 @@ namespace CacheRepository.Implementation.Base
                 }
 
                 return value;
-            }
-            finally
-            {
-                semaphore.Release();
             }
         }
 

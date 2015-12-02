@@ -53,6 +53,7 @@
     <Compile Include="IAsyncCacheRepository.cs" />
     <Compile Include="Implementation\Base\AsyncCacheRepositoryBase.cs" />
     <Compile Include="Configuration\Implementation\ConfigurationCacheSettings.cs" />
+    <Compile Include="Threading\KeyedSemaphoreSlim.cs" />
     <Compile Include="Implementation\EmptyCacheRepository.cs" />
     <Compile Include="ICacheRepository.cs" />
     <Compile Include="Implementation\InMemoryCacheRepository.cs" />
