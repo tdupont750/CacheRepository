@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CacheRepository</RootNamespace>
     <AssemblyName>CacheRepository</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,12 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\CacheExpiration.cs" />
+    <Compile Include="CacheExpiration.cs" />
+    <Compile Include="Configuration\Implementation\DefaultCacheSettings.cs" />
+    <Compile Include="Configuration\ICacheSettings.cs" />
+    <Compile Include="Extensions\AsyncCacheRepositoryExtensions.cs" />
     <Compile Include="Extensions\CacheRepositoryExtensions.cs" />
-    <Compile Include="Enums\CacheSliding.cs" />
-    <Compile Include="Implementation\CacheRepositoryBase.cs" />
+    <Compile Include="CacheSliding.cs" />
+    <Compile Include="IAsyncCacheRepository.cs" />
+    <Compile Include="Implementation\Base\AsyncCacheRepositoryBase.cs" />
+    <Compile Include="Configuration\Implementation\ConfigurationCacheSettings.cs" />
     <Compile Include="Implementation\EmptyCacheRepository.cs" />
     <Compile Include="ICacheRepository.cs" />
+    <Compile Include="Implementation\InMemoryCacheRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

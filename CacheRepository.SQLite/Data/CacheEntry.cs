@@ -6,9 +6,16 @@ namespace CacheRepository.SQLite.Data
     [Table("CacheEntry")]
     public class CacheEntry
     {
-        private DateTime _createdUtc;
+        /* 
+         * CREATE TABLE "main"."CacheEntry" (
+         *  "Id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , 
+         *  "Key" VARCHAR(255) NOT NULL  UNIQUE , 
+         *  "Value" TEXT NOT NULL , 
+         *  "SlideSpan" VARCHAR(255) , 
+         *  "ExpireUtc" DATETIME)
+         */
 
-        private DateTime _modifiedUtc;
+        private DateTime? _createdUtc;
 
         public long Id { get; set; }
 
@@ -16,18 +23,36 @@ namespace CacheRepository.SQLite.Data
 
         public string Value { get; set; }
 
-        public string Type { get; set; }
+        public string SlideSpan { get; set; }
 
-        public DateTime CreatedUtc
+        public DateTime? ExpireUtc
         {
             get { return _createdUtc; }
-            set { _createdUtc = value.ToUniversalTime(); }
+
+            set
+            {
+                _createdUtc = value.HasValue 
+                    ? value.Value.ToUniversalTime() 
+                    : (DateTime?) null;
+            }
         }
 
-        public DateTime ModifiedUtc
+        public TimeSpan? GetSlideSpan()
         {
-            get { return _modifiedUtc; }
-            set { _modifiedUtc = value.ToUniversalTime(); }
+            if (string.IsNullOrWhiteSpace(SlideSpan))
+                return null;
+
+            TimeSpan timeSpan;
+            return TimeSpan.TryParse(SlideSpan, out timeSpan) 
+                ? timeSpan
+                : (TimeSpan?) null;
+        }
+
+        public void SetSlideSpan(TimeSpan? timeSpan)
+        {
+            SlideSpan = timeSpan.HasValue
+                ? timeSpan.ToString()
+                : null;
         }
     }
 }

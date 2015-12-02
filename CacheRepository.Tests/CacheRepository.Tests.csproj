@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,9 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities\CacheRepositoryTestsBase.cs" />
-    <Compile Include="ExpirationTests.cs" />
+    <Compile Include="ConfigurationCacheSettingsTests.cs" />
     <Compile Include="GetOrSetTests.cs" />
-    <Compile Include="Utilities\MemoryCacheRepository.cs" />
+    <Compile Include="Utilities\TestMemoryCacheRepository.cs" />
     <Compile Include="Utilities\TestEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetByTypeTests.cs" />
@@ -68,6 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

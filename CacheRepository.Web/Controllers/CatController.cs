@@ -1,34 +1,34 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using CacheRepository.Web.Models;
 using CacheRepository.Web.Services;
 
 namespace CacheRepository.Web.Controllers
 {
     public class CatController : Controller
     {
-        private readonly ICacheRepository _cacheRepository;
+        private readonly IAsyncCacheRepository _cacheRepository;
         private readonly Func<ICatRepository> _catRepositoryFactory;
 
         public CatController(
-            ICacheRepository cacheRepository, 
+            IAsyncCacheRepository cacheRepository, 
             Func<ICatRepository> catRepositoryFactory)
         {
             _cacheRepository = cacheRepository;
             _catRepositoryFactory = catRepositoryFactory;
         }
 
-        public ActionResult Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
             var loadedFromCache = true;
-            var cat = _cacheRepository.GetOrSetByType(id, () =>
+            var cat = await _cacheRepository.GetOrSetByTypeAsync(id, async () =>
             {
                 loadedFromCache = false;
                 
                 using (var catRepository = _catRepositoryFactory())
-                    return catRepository.LoadCat(id);
+                    return await catRepository.LoadCatAsync(id).ConfigureAwait(false);
 
-            }, CacheExpiration.VeryShort);
+            }, CacheExpiration.VeryShort).ConfigureAwait(false);
 
             return Json(new
             {

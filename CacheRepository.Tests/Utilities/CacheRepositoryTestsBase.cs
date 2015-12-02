@@ -2,14 +2,14 @@
 {
     public abstract  class CacheRepositoryTestsBase
     {
-        private readonly MemoryCacheRepository _memoryCacheRepository = new MemoryCacheRepository();
+        private readonly TestMemoryCacheRepository _memoryCacheRepository = new TestMemoryCacheRepository();
 
-        protected MemoryCacheRepository MemoryCacheRepository
+        protected TestMemoryCacheRepository MemoryCacheRepository
         {
             get { return _memoryCacheRepository; }
         }
 
-        protected ICacheRepository CacheRepository
+        protected IAsyncCacheRepository CacheRepository
         {
             get { return MemoryCacheRepository; }
         }

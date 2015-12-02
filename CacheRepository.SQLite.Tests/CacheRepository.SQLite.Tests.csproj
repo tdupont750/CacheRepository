@@ -69,10 +69,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="Cache.sqlite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="..\CacheRepository.SQLite\Data\Cache.sqlite">
+      <Link>Cache.sqlite</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

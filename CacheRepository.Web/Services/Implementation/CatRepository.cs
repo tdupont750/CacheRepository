@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CacheRepository.Web.Models;
 
 namespace CacheRepository.Web.Services.Implementation
@@ -12,27 +13,34 @@ namespace CacheRepository.Web.Services.Implementation
             Dispose(true);
         }
 
-        public Cat LoadCat(int id)
+        public Task<Cat> LoadCatAsync(int id)
         {
+            Cat result;
+
             switch (id)
             {
                 case 1:
-                    return new Cat
-                           {
-                               Id = 1,
-                               Name = "Linq"
-                           };
+                    result = new Cat
+                    {
+                        Id = 1,
+                        Name = "Linq"
+                    };
+                    break;
 
                 case 2:
-                    return new Cat
-                           {
-                               Id = 1,
-                               Name = "Sql"
-                           };
+                    result = new Cat
+                    {
+                        Id = 1,
+                        Name = "Sql"
+                    };
+                    break;
 
                 default:
-                    return null;
+                    result = null;
+                    break;
             }
+
+            return Task.FromResult(result);
         }
 
         public void Dispose()

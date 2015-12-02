@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CacheRepository
 {
     /// <summary>
-    /// Extensions for ICacheRepository
+    /// Extensions for IAsyncCacheRepository
     /// </summary>
-    [Obsolete]
-    public static class CacheRepositoryExtensions
+    public static class AsyncCacheRepositoryExtensions
     {
         /// <summary>
         /// Get or set by type.
@@ -14,14 +15,15 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, cancelToken);
         }
 
         /// <summary>
@@ -30,15 +32,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, DateTime expiration)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, DateTime expiration, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, expiration);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, expiration, cancelToken);
         }
 
         /// <summary>
@@ -47,15 +50,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, DateTime> expiration)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, Func<T, DateTime> expiration, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, expiration);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, expiration, cancelToken);
         }
 
         /// <summary>
@@ -64,15 +68,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, TimeSpan sliding)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, TimeSpan sliding, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, sliding);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, sliding, cancelToken);
         }
 
         /// <summary>
@@ -81,15 +86,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, TimeSpan> sliding)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, Func<T, TimeSpan> sliding, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, sliding);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, sliding, cancelToken);
         }
 
         /// <summary>
@@ -99,15 +105,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, CacheExpiration expiration)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, CacheExpiration expiration, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, expiration);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, expiration, cancelToken);
         }
 
         /// <summary>
@@ -117,15 +124,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="expiration">Abosolute expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, CacheExpiration> expiration)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, Func<T, CacheExpiration> expiration, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, expiration);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, expiration, cancelToken);
         }
 
         /// <summary>
@@ -135,15 +143,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, CacheSliding sliding)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, CacheSliding sliding, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, sliding);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, sliding, cancelToken);
         }
 
         /// <summary>
@@ -153,15 +162,16 @@ namespace CacheRepository
         /// Example: repo.GetOrSetByType{User}(1, LoadUserByIdFromDb(1)); // Get or load and set User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="loader">Delegate to invoke if cached item is not found</param>
         /// <param name="sliding">Sliding expiration to use if object is loaded and cached</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <returns>Cached object or result of loader</returns>
-        public static T GetOrSetByType<T>(this ICacheRepository repo, object identifier, Func<T> loader, Func<T, CacheSliding> sliding)
+        public static Task<T> GetOrSetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, Func<Task<T>> loader, Func<T, CacheSliding> sliding, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.GetOrSet(key, loader, sliding);
+            var key = CreateKey<T>(identifier);
+            return repo.GetOrSetAsync(key, loader, sliding, cancelToken);
         }
 
         /// <summary>
@@ -170,13 +180,15 @@ namespace CacheRepository
         /// Example: repo.SetByType{User}(1, user); // Set user by their Id
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
+        /// <param name="cancelToken">Cancellation Token</param>
         /// <param name="value">Object to be cached</param>
-        public static void SetByType<T>(this ICacheRepository repo, object identifier, T value)
+        /// <returns>Task</returns>
+        public static Task SetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, T value, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            repo.Set(key, value);
+            var key = CreateKey<T>(identifier);
+            return repo.SetAsync(key, value, cancelToken);
         }
 
         /// <summary>
@@ -185,30 +197,34 @@ namespace CacheRepository
         /// Example: repo.SetByType{User}(1, user); // Set user by their Id
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="expiration">Abosolute expiration to use for cache</param>
         /// <param name="value">Object to be cached</param>
-        public static void SetByType<T>(this ICacheRepository repo, object identifier, T value, DateTime expiration)
+        /// <param name="cancelToken">Cancellation Token</param>
+        /// <returns>Task</returns>
+        public static Task SetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, T value, DateTime expiration, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            repo.Set(key, value, expiration);
+            var key = CreateKey<T>(identifier);
+            return repo.SetAsync(key, value, expiration, cancelToken);
         }
-        
+
         /// <summary>
         /// Set by type.
         /// Cache key is automagically created from object type and identify.
         /// Example: repo.SetByType{User}(1, user); // Set user by their Id
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="sliding">Sliding expiration to use for cache</param>
         /// <param name="value">Object to be cached</param>
-        public static void SetByType<T>(this ICacheRepository repo, object identifier, T value, TimeSpan sliding)
+        /// <param name="cancelToken">Cancellation Token</param>
+        /// <returns>Task</returns>
+        public static Task SetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, T value, TimeSpan sliding, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            repo.Set(key, value, sliding);
+            var key = CreateKey<T>(identifier);
+            return repo.SetAsync(key, value, sliding, cancelToken);
         }
 
         /// <summary>
@@ -218,16 +234,18 @@ namespace CacheRepository
         /// Example: repo.SetByType{User}(1, user); // Set user by their Id
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="expiration">Abosolute expiration to use for cache</param>
         /// <param name="value">Object to be cached</param>
-        public static void SetByType<T>(this ICacheRepository repo, object identifier, T value, CacheExpiration expiration)
+        /// <param name="cancelToken">Cancellation Token</param>
+        /// <returns>Task</returns>
+        public static Task SetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, T value, CacheExpiration expiration, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            repo.Set(key, value, expiration);
+            var key = CreateKey<T>(identifier);
+            return repo.SetAsync(key, value, expiration, cancelToken);
         }
-        
+
         /// <summary>
         /// Set by type.
         /// Cache key is automagically created from object type and identify.
@@ -235,14 +253,16 @@ namespace CacheRepository
         /// Example: repo.SetByType{User}(1, user); // Set user by their Id
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <param name="sliding">Sliding expiration to use for cache</param>
         /// <param name="value">Object to be cached</param>
-        public static void SetByType<T>(this ICacheRepository repo, object identifier, T value, CacheSliding sliding)
+        /// <param name="cancelToken">Cancellation Token</param>
+        /// <returns>Task</returns>
+        public static Task SetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, T value, CacheSliding sliding, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            repo.Set(key, value, sliding);
+            var key = CreateKey<T>(identifier);
+            return repo.SetAsync(key, value, sliding, cancelToken);
         }
 
         /// <summary>
@@ -251,13 +271,15 @@ namespace CacheRepository
         /// Example: repo.GetByType{User}(1); // Get User 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
         /// <returns>Cached object, null if no record found</returns>
-        public static T GetByType<T>(this ICacheRepository repo, object identifier)
+        /// <param name="cancelToken">Cancellation Token</param>
+        /// <returns>Task</returns>
+        public static Task<T> GetByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            return repo.Get<T>(key);
+            var key = CreateKey<T>(identifier);
+            return repo.GetAsync<T>(key, cancelToken);
         }
 
         /// <summary>
@@ -266,12 +288,23 @@ namespace CacheRepository
         /// Example: repo.RemoveByType{User}(1); // Removes user 1
         /// </summary>
         /// <typeparam name="T">Type of cached object</typeparam>
-        /// <param name="repo">ICacheRepository</param>
+        /// <param name="repo">IAsyncCacheRepository</param>
         /// <param name="identifier">Type specific unique identify for object</param>
-        public static void RemoveByType<T>(this ICacheRepository repo, object identifier)
+        /// <param name="cancelToken">Cancellation Token</param>
+        /// <returns>Task</returns>
+        public static Task RemoveByTypeAsync<T>(this IAsyncCacheRepository repo, object identifier, CancellationToken cancelToken = default(CancellationToken))
         {
-            var key = AsyncCacheRepositoryExtensions.CreateKey<T>(identifier);
-            repo.Remove(key);
+            var key = CreateKey<T>(identifier);
+            return repo.RemoveAsync(key, cancelToken);
+        }
+
+        internal static string CreateKey<T>(object identifier)
+        {
+            var type = typeof(T);
+
+            return identifier == null
+                ? type.FullName
+                : String.Concat(type.FullName, "_", identifier);
         }
     }
 }

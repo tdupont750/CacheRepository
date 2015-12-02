@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CacheRepository.Web.Models;
 
 namespace CacheRepository.Web.Services
 {
     public interface ICatRepository : IDisposable
     {
-        Cat LoadCat(int id);
+        Task<Cat> LoadCatAsync(int id);
     }
 }

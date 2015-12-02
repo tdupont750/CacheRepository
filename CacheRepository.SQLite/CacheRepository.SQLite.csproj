@@ -71,9 +71,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Cache.sqlite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Data\Cache.sqlite" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

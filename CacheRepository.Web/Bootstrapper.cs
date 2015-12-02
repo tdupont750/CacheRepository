@@ -1,5 +1,6 @@
 using System.Web.Mvc;
-using CacheRepository.Web.Controllers;
+using CacheRepository.Configuration;
+using CacheRepository.Configuration.Implementation;
 using CacheRepository.Web.Services;
 using CacheRepository.Web.Services.Implementation;
 using Microsoft.Practices.Unity;
@@ -21,8 +22,9 @@ namespace CacheRepository.Web
             var container = new UnityContainer();
 
             container
-                .RegisterType<ICacheRepository, WebCacheRepository>(new ContainerControlledLifetimeManager())
-                .RegisterType<ICatRepository, CatRepository>(new TransientLifetimeManager());           
+                .RegisterType<IAsyncCacheRepository, WebCacheRepository>(new ContainerControlledLifetimeManager())
+                .RegisterType<ICacheSettings, ConfigurationCacheSettings>(new ContainerControlledLifetimeManager())
+                .RegisterType<ICatRepository, CatRepository>(new TransientLifetimeManager());
 
             return container;
         }
