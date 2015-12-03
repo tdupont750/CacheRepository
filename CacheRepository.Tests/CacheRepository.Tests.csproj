@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KeyedSemaphoreSlimTests.cs" />
     <Compile Include="Utilities\CacheRepositoryTestsBase.cs" />
     <Compile Include="ConfigurationCacheSettingsTests.cs" />
     <Compile Include="GetOrSetTests.cs" />
